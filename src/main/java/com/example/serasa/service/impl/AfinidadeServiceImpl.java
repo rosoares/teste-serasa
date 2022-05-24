@@ -4,6 +4,7 @@ import com.example.serasa.dto.afinidade.AfinidadeDTO;
 import com.example.serasa.model.Afinidade;
 import com.example.serasa.repository.AfinidadeRepository;
 import com.example.serasa.service.AfinidadeService;
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -14,10 +15,12 @@ public class AfinidadeServiceImpl implements AfinidadeService {
 
     private AfinidadeRepository repository;
 
+    private ModelMapper mapper;
 
     @Autowired
-    public AfinidadeServiceImpl(AfinidadeRepository repository) {
+    public AfinidadeServiceImpl(AfinidadeRepository repository, ModelMapper mapper) {
         this.repository = repository;
+        this.mapper = mapper;
     }
 
     @Override
@@ -30,5 +33,13 @@ public class AfinidadeServiceImpl implements AfinidadeService {
 
         repository.save(afinidade);
 
+    }
+
+    @Override
+    public AfinidadeDTO encontraPelaRegiao(String regiao) {
+
+        Afinidade afinidade = repository.findByRegiao(regiao);
+
+        return mapper.map(afinidade, AfinidadeDTO.class);
     }
 }

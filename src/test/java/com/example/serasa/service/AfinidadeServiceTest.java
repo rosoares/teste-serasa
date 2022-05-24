@@ -11,7 +11,10 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.modelmapper.ModelMapper;
+import org.springframework.ui.ModelMap;
 
+import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -25,6 +28,9 @@ public class AfinidadeServiceTest {
 
     @Mock
     private AfinidadeRepository repository;
+
+    @Mock
+    private ModelMapper mapper;
 
     @Test
     void testeCriaAfinidadeComSucesso() {
@@ -43,6 +49,35 @@ public class AfinidadeServiceTest {
         assertEquals(afinidadeDTO.getEstados().get(0), afinidadeArgumentCaptor.getValue().getEstados().get(0));
         assertEquals(afinidadeDTO.getEstados().get(3), afinidadeArgumentCaptor.getValue().getEstados().get(3));
 
+    }
+
+    @Test
+    void testeEncontraPelaRegiaoComSucesso() {
+
+        Afinidade afinidade = afinidadeValida();
+
+        Mockito.when(repository.findByRegiao(Mockito.anyString())).thenReturn(afinidade);
+        Mockito.when(mapper.map(Mockito.any(Afinidade.class), Mockito.any()))
+                .thenReturn(
+                        AfinidadeDTO.builder()
+                                .regiao(afinidade.getRegiao())
+                                .estados(afinidade.getEstados())
+                                .build()
+                );
+
+        AfinidadeDTO resposta = service.encontraPelaRegiao(Mockito.anyString());
+
+        assertEquals(afinidade.getEstados().get(0), resposta.getEstados().get(0));
+        assertEquals(afinidade.getRegiao(), resposta.getRegiao());
+
+    }
+
+    private Afinidade afinidadeValida() {
+        Afinidade afinidade = new Afinidade();
+        afinidade.setRegiao("sudeste");
+        afinidade.setEstados(List.of("MG", "RJ", "SP", "ES"));
+
+        return afinidade;
     }
 
 }

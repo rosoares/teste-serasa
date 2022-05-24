@@ -7,6 +7,9 @@ import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
+import static com.example.serasa.model.Score.SCORE_MAX;
+import static com.example.serasa.model.Score.SCORE_MIN;
+
 @Getter
 @Setter
 @NoArgsConstructor
@@ -15,10 +18,6 @@ import javax.validation.constraints.Size;
 public class NovaPessoaDTO {
 
     private static final int IDADE_MAX = 140;
-
-    private static final int SCORE_MAX = 1000;
-
-    private static final int SCORE_MIN = 0;
 
     @NotNull(message = "O campo nome não pode estar vazio")
     private String nome;

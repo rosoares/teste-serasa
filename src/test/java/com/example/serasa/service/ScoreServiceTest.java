@@ -11,6 +11,7 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.modelmapper.ModelMapper;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
@@ -22,6 +23,9 @@ public class ScoreServiceTest {
 
     @Mock
     private ScoreRepository repository;
+
+    @Mock
+    private ModelMapper modelMapper;
 
     @Test
     void testeCriaScoreComSucesso() {
@@ -41,6 +45,38 @@ public class ScoreServiceTest {
         assertEquals(scoreDTO.getScoreFinal(), scoreArgumentCaptor.getValue().getScoreFinal());
         assertEquals(scoreDTO.getScoreInicial(), scoreArgumentCaptor.getValue().getScoreInicial());
 
+    }
+
+    @Test
+    void testeEncontraPeloScoreDaPessoaComSucesso() {
+
+        Score score = scoreValido();
+
+        Mockito.when(repository.findByInicialGreaterThanAndFinalLessThanEqual(Mockito.anyInt())).thenReturn(score);
+        Mockito.when(modelMapper.map(Mockito.any(Score.class), Mockito.any())).thenReturn(
+                ScoreDTO.builder()
+                        .scoreDescricao(score.getScoreDescricao())
+                        .scoreFinal(score.getScoreFinal())
+                        .scoreInicial(score.getScoreInicial())
+                        .build()
+        );
+
+        ScoreDTO resposta = service.encontraFaixaPorScore(Mockito.anyInt());
+
+        assertEquals(score.getScoreDescricao(), resposta.getScoreDescricao());
+        assertEquals(score.getScoreFinal(), resposta.getScoreFinal());
+        assertEquals(score.getScoreInicial(), resposta.getScoreInicial());
+
+    }
+
+    private Score scoreValido() {
+
+        Score score = new Score();
+        score.setScoreDescricao("Insuficiente");
+        score.setScoreInicial(0);
+        score.setScoreFinal(200);
+
+        return score;
     }
 
 }

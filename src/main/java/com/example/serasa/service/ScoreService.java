@@ -6,4 +6,6 @@ public interface ScoreService {
 
     void criar(ScoreDTO scoreDTO);
 
+    ScoreDTO encontraFaixaPorScore(int scorePessoa);
+
 }

@@ -40,6 +40,10 @@ public class AfinidadeServiceImpl implements AfinidadeService {
 
         Afinidade afinidade = repository.findByRegiao(regiao);
 
+        if (afinidade == null) {
+            return new AfinidadeDTO();
+        }
+
         return mapper.map(afinidade, AfinidadeDTO.class);
     }
 }

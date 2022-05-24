@@ -19,7 +19,7 @@ public class PessoaDTO {
 
     private int idade;
 
-    private int scoreDescricao;
+    private String scoreDescricao;
 
     private List<String> estados;
 

@@ -36,7 +36,11 @@ public class ScoreServiceImpl implements ScoreService {
     @Override
     public ScoreDTO encontraFaixaPorScore(int scorePessoa) {
 
-        Score score = repository.findByInicialGreaterThanAndFinalLessThanEqual(scorePessoa);
+        Score score = repository.findByScoreInicialLessThanEqualAndScoreFinalGreaterThanEqual(scorePessoa, scorePessoa);
+
+        if (score == null) {
+            return new ScoreDTO();
+        }
 
         return mapper.map(score, ScoreDTO.class);
     }

@@ -52,7 +52,7 @@ public class ScoreServiceTest {
 
         Score score = scoreValido();
 
-        Mockito.when(repository.findByInicialGreaterThanAndFinalLessThanEqual(Mockito.anyInt())).thenReturn(score);
+        Mockito.when(repository.findByScoreInicialLessThanEqualAndScoreFinalGreaterThanEqual(Mockito.anyInt(), Mockito.anyInt())).thenReturn(score);
         Mockito.when(modelMapper.map(Mockito.any(Score.class), Mockito.any())).thenReturn(
                 ScoreDTO.builder()
                         .scoreDescricao(score.getScoreDescricao())

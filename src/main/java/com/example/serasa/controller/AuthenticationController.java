@@ -3,6 +3,8 @@ package com.example.serasa.controller;
 import com.example.serasa.dto.auth.LoginDTO;
 import com.example.serasa.dto.auth.TokenDTO;
 import com.example.serasa.service.impl.TokenService;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -16,6 +18,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequestMapping("/auth")
+@Tag(name = "Autenticação", description = "Autenticação na API")
 public class AuthenticationController {
 
     @Autowired
@@ -25,6 +28,7 @@ public class AuthenticationController {
     private TokenService tokenService;
 
     @PostMapping
+    @Operation(summary = "Autentica usuário com JWT")
     public ResponseEntity<TokenDTO> auth(@RequestBody @Validated LoginDTO loginDTO) {
 
         UsernamePasswordAuthenticationToken usernamePasswordAuthenticationToken = new UsernamePasswordAuthenticationToken(loginDTO.getUser(), loginDTO.getPass());

@@ -18,3 +18,8 @@ spring:
 jwt:
   secret: shJAeOs5Vv
   expiration: 3600000
+
+springdoc:
+  swagger-ui:
+    path: docs.html
+    operationsSorter: method

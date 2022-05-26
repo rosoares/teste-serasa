@@ -61,7 +61,7 @@ public class ScoreServiceTest {
                         .build()
         );
 
-        ScoreDTO resposta = service.encontraFaixaPorScore(Mockito.anyInt());
+        ScoreDTO resposta = service.encontraFaixaPorScore(100);
 
         assertEquals(score.getScoreDescricao(), resposta.getScoreDescricao());
         assertEquals(score.getScoreFinal(), resposta.getScoreFinal());
